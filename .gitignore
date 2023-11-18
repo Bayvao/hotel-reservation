@@ -9,6 +9,10 @@
 *.dylib
 
 .idea
+.DS_Store
+coverage.out
+run.sh
+database.yml
 
 # Test binary, built with `go test -c`
 *.test
