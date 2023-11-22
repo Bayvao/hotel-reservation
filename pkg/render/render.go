@@ -10,6 +10,7 @@ import (
 
 	"github.com/Bayvao/hotel-reservation/pkg/config"
 	"github.com/Bayvao/hotel-reservation/pkg/models"
+	"github.com/justinas/nosurf"
 )
 
 var tc = make(map[string]*template.Template)
@@ -21,14 +22,16 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 // RenderTemplate using html/template
 
 // Approach - 1
-func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
 
@@ -39,7 +42,6 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 	}
 
 	// get the template cache from the app config
-	
 
 	// get requested template from cache
 	t, ok := tc[tmpl]
@@ -49,7 +51,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 
 	buf := new(bytes.Buffer)
 
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 
 	_ = t.Execute(buf, td)
 
@@ -71,7 +73,7 @@ func CreateTemplatesCaches() (map[string]*template.Template, error) {
 		return myCache, err
 	}
 
-	for _,page := range pages {
+	for _, page := range pages {
 		name := filepath.Base(page)
 		ts, err := template.New(name).ParseFiles(page)
 		if err != nil {
@@ -94,11 +96,10 @@ func CreateTemplatesCaches() (map[string]*template.Template, error) {
 	}
 
 	return myCache, nil
-} 
+}
 
 // ########################################################### //
 // ########################################################### //
-
 
 // Approach - 2
 func RenderTemplates(w http.ResponseWriter, t string) {
@@ -128,7 +129,7 @@ func RenderTemplates(w http.ResponseWriter, t string) {
 
 func createTemplateCache(t string) error {
 	templates := []string{
-		fmt.Sprintf("./templates/%s", t), 
+		fmt.Sprintf("./templates/%s", t),
 		"./templates/base.layout.tmpl",
 	}
 
@@ -146,7 +147,7 @@ func createTemplateCache(t string) error {
 
 // Approach - 3
 func RenderTemplateTest(w http.ResponseWriter, tmpl string) {
-	parsedTemplate, _ := template.ParseFiles("./templates/" + tmpl, "./templates/base.layout.tmpl")
+	parsedTemplate, _ := template.ParseFiles("./templates/"+tmpl, "./templates/base.layout.tmpl")
 	err := parsedTemplate.Execute(w, nil)
 
 	if err != nil {
