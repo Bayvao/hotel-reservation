@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/Bayvao/hotel-reservation/internal/config"
+	"github.com/Bayvao/hotel-reservation/internal/handlers"
 	"net/http"
 
-	"github.com/Bayvao/hotel-reservation/pkg/config"
-	"github.com/Bayvao/hotel-reservation/pkg/handlers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )

@@ -3,12 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Bayvao/hotel-reservation/internal/config"
+	"github.com/Bayvao/hotel-reservation/internal/models"
+	"github.com/Bayvao/hotel-reservation/internal/render"
 	"log"
 	"net/http"
-
-	"github.com/Bayvao/hotel-reservation/pkg/config"
-	"github.com/Bayvao/hotel-reservation/pkg/models"
-	"github.com/Bayvao/hotel-reservation/pkg/render"
 )
 
 // Repo the repository used by the handlers

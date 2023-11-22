@@ -3,13 +3,13 @@ package render
 import (
 	"bytes"
 	"fmt"
+	"github.com/Bayvao/hotel-reservation/internal/config"
+	"github.com/Bayvao/hotel-reservation/internal/models"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
-	"github.com/Bayvao/hotel-reservation/pkg/config"
-	"github.com/Bayvao/hotel-reservation/pkg/models"
 	"github.com/justinas/nosurf"
 )
 

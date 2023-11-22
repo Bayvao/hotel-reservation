@@ -2,22 +2,23 @@ package main
 
 import (
 	"fmt"
+	"github.com/Bayvao/hotel-reservation/internal/config"
+	"github.com/Bayvao/hotel-reservation/internal/handlers"
+	"github.com/Bayvao/hotel-reservation/internal/render"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/Bayvao/hotel-reservation/pkg/config"
-	"github.com/Bayvao/hotel-reservation/pkg/handlers"
-	"github.com/Bayvao/hotel-reservation/pkg/render"
 	"github.com/alexedwards/scs/v2"
 )
 
 const portNumber string = ":8080"
+
 var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
-	
+
 	//change this to true when in production
 	app.InProduction = false
 
@@ -45,8 +46,8 @@ func main() {
 	fmt.Println(fmt.Sprintf("Starting application on port %s", portNumber))
 
 	srv := &http.Server{
-		Addr: portNumber,
-		Handler:  routes(&app),
+		Addr:    portNumber,
+		Handler: routes(&app),
 	}
 
 	err = srv.ListenAndServe()
